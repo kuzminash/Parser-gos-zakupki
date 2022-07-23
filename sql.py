@@ -4,7 +4,7 @@ from tqdm import tqdm
 from sqlalchemy import create_engine
 from time import sleep
 
-conn_to_db = "host='localhost' dbname='zakupki3' user='' password=''"
+conn_to_db = "host='localhost' dbname='zakupki3' user='postgres' password='1068'"
 
 
 def connect_to_db():

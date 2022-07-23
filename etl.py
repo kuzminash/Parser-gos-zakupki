@@ -36,7 +36,10 @@ def thread_work(data, id, to_parse, ftp_data):
 def thread_work2(data, r, f):
 	parsed = []
 	for [file, region] in data:
-		zip_file = ZipFile(file)
+		try:
+			zip_file = ZipFile(file)
+		except:
+			continue
 		zip_names = zip_file.namelist()
 		for name in zip_names:
 			result = parse_xml(zip_file, name, region)
@@ -62,7 +65,9 @@ def etl(ftp_data, coll, update_type, regions=None, regions_start=None, regions_e
 	start_region = -3
 	end_region = -2
 	threads = 100
-	for region in regions[:3]:
+	print(f'Totally {len(regions)} regions')
+	for idx, region in enumerate(regions[:]):
+		print(f'Left {len(regions) - 0 - idx} regions')
 		to_parse = []
 		ftp = get_ftp(ftp_data)
 		while True:
@@ -106,7 +111,7 @@ def etl(ftp_data, coll, update_type, regions=None, regions_start=None, regions_e
 		th = [Thread(target=thread_work2, args=(data[i], region_id, ftp_data)) for i in range(threads)]
 		[t.start() for t in th]
 		[t.join() for t in th]
-		print(f'{ts()} region {region} parsed && pushed')
+		print(f'{ts()} region {regions[idx]} {idx} parsed && pushed')
 
 
 
