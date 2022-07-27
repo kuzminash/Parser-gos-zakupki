@@ -62,12 +62,12 @@ def etl(ftp_data, coll, update_type, regions=None, regions_start=None, regions_e
 	ftp.close()
 	print(ts(), 'regions: {regions}'.format(regions=regions))
 	files = {}
-	start_region = -3
-	end_region = -2
+	start_region = 0
+	end_region = len(regions)
 	threads = 100
 	print(f'Totally {len(regions)} regions')
-	for idx, region in enumerate(regions[:]):
-		print(f'Left {len(regions) - 0 - idx} regions')
+	for idx, region in enumerate(regions[start_region:end_region]):
+		print(f'Left {end_region - start_region - idx} regions')
 		to_parse = []
 		ftp = get_ftp(ftp_data)
 		while True:
